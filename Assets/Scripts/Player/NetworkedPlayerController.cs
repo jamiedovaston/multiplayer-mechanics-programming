@@ -11,7 +11,8 @@ public class NetworkedPlayerController : NetworkBehaviour
     Rigidbody rb;
     InputSystem_Actions m_InputActions;
 
-    Vector2 direction;
+    Vector3 direction;
+    [SerializeField] private float speed = 8.0f;
 
     private void Awake()
     {
@@ -40,7 +41,7 @@ public class NetworkedPlayerController : NetworkBehaviour
         m_InputActions.Player.Move.canceled -= Handle_MoveCanceled;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         rb.AddForce(direction);
     }
@@ -49,18 +50,20 @@ public class NetworkedPlayerController : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        Vector3 inp = new Vector3(context.ReadValue<Vector2>().x, 0.0f, context.ReadValue<Vector2>().y);
-        direction = transform.forward + transform.right;
-        direction = inp * 5.0f;
+        Debug.Log($"MOVEMENT: X: {context.ReadValue<Vector2>().x} Y: {context.ReadValue<Vector2>().y}");
+
+        Vector2 inp = context.ReadValue<Vector2>();
+        direction = transform.forward * inp.y + transform.right * inp.x;
+        direction *= speed;
+
+        Debug.Log($"DIRECTION: { direction }");
     }
 
     private void Handle_MoveCanceled(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
 
-        Vector3 inp = new Vector3(context.ReadValue<Vector2>().x, 0.0f, context.ReadValue<Vector2>().y);
-        direction = transform.forward + transform.right;
-        direction = direction * inp * 5.0f;
+        direction = Vector2.zero;
     }
 
     private void Handle_JumpPerformed(InputAction.CallbackContext context)
