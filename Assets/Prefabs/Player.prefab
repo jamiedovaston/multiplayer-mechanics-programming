@@ -282,7 +282,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  speed: 8
+  speed: 4500
+  counterMovement: 0.175
+  jumpSpeed: 15.9
 --- !u!54 &5951004828644620417
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -380,7 +382,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5224358072045627093}
-  m_Material: {fileID: 13400000, guid: a33c69d12eb094647a53e6b82cf825d1, type: 2}
+  m_Material: {fileID: 13400000, guid: fc7bc1a8a21d726439ce5a7510efe006, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
