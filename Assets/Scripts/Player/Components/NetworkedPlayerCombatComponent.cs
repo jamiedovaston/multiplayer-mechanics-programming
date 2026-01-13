@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class NetworkedPlayerCombatComponent : NetworkBehaviour, INetworkCombat
 {
     [SerializeField] private GameObject m_BombPrefab;
+    [SerializeField] private float m_BombSpeed = 2.0f;
 
     void INetworkCombat.Initialise()
     {
@@ -13,7 +14,16 @@ public class NetworkedPlayerCombatComponent : NetworkBehaviour, INetworkCombat
 
     void INetworkCombat.Handle_Action(InputAction.CallbackContext context)
     {
-        GameObject obj = Instantiate(m_BombPrefab, transform.position + (Vector3.up * 2), Quaternion.identity);
+        DropBombRpc();
+    }
+
+    [Rpc(SendTo.Server)]
+    private void DropBombRpc(RpcParams rpcParams = default)
+    {
+        GameObject obj = Instantiate(m_BombPrefab, transform.position + (Vector3.up * 4), Quaternion.identity);
         obj.GetComponent<NetworkObject>().Spawn();
+
+        obj.GetComponent<Rigidbody>().AddForce(transform.forward * m_BombSpeed, ForceMode.Impulse);
+
     }
 }

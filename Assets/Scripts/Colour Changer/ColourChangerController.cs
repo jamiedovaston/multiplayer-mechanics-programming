@@ -24,8 +24,10 @@ public class ColourChangerController : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.GetComponent<NetworkObject>().IsLocalPlayer)
-            TriggerColourChangerRpc();
+        if (!other.gameObject.CompareTag("Player")) return;
+        if (!other.gameObject.GetComponent<NetworkObject>().IsLocalPlayer) return;
+
+        TriggerColourChangerRpc();
     }
 
     [Rpc(SendTo.Server)]

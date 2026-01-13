@@ -36,13 +36,13 @@ public class NetworkedPlayerMovementComponent : NetworkBehaviour, INetworkMoveme
 
         CounterMovement();
 
-        rb.AddForce(transform.right * input.x * speed * Time.fixedDeltaTime);
-        rb.AddForce(transform.forward * input.y * speed * Time.fixedDeltaTime);
+        rb.AddForce(Vector3.right * input.x * speed * Time.fixedDeltaTime);
+        rb.AddForce(Vector3.forward * input.y * speed * Time.fixedDeltaTime);
     }
 
     private void CounterMovement()
     {
-        rb.AddForce(transform.right * speed * Time.fixedDeltaTime * -rb.linearVelocity.x * counterMovement);
-        rb.AddForce(transform.forward * speed * Time.fixedDeltaTime * -rb.linearVelocity.z * counterMovement);
+        rb.AddForce(Vector3.right * speed * Time.fixedDeltaTime * -rb.linearVelocity.x * counterMovement);
+        rb.AddForce(Vector3.forward * speed * Time.fixedDeltaTime * -rb.linearVelocity.z * counterMovement);
     }
 }

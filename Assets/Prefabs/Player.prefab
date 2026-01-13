@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 8308683879612533081}
   - component: {fileID: 952581792118349388}
   - component: {fileID: 601337259753859617}
+  - component: {fileID: 719671383453303934}
   - component: {fileID: 5951004828644620417}
   - component: {fileID: 4110288812693197122}
   - component: {fileID: 3180937112425737787}
@@ -313,6 +314,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   m_BombPrefab: {fileID: 7832118379114125520, guid: ac4b1c948bac294458d026be4bf81ad4, type: 3}
+  m_BombSpeed: 0.75
+--- !u!114 &719671383453303934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5224358072045627093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57573ce438b4f97478d95c18d60d0139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!54 &5951004828644620417
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -410,7 +428,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5224358072045627093}
-  m_Material: {fileID: 13400000, guid: fc7bc1a8a21d726439ce5a7510efe006, type: 2}
+  m_Material: {fileID: 13400000, guid: a33c69d12eb094647a53e6b82cf825d1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
