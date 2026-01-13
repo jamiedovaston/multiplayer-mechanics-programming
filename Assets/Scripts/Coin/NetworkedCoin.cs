@@ -9,8 +9,10 @@ public class NetworkedCoin : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<NetworkObject>().IsLocalPlayer)
-            CoinCollectedRpc();
+        if (!other.gameObject.CompareTag("Player")) return;
+        if (!other.gameObject.GetComponent<NetworkObject>().IsLocalPlayer) return;
+
+        CoinCollectedRpc();
     }
 
     [Rpc(SendTo.Server)]
