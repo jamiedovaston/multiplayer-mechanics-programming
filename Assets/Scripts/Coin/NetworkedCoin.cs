@@ -18,7 +18,6 @@ public class NetworkedCoin : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void CoinCollectedRpc(RpcParams rpcParams = default)
     {
-        Debug.Log("Coin Collected!");
         CoinCollectedVFXRpc();
 
         NetworkObject.Despawn();

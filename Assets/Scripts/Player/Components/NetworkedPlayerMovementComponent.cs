@@ -19,7 +19,6 @@ public class NetworkedPlayerMovementComponent : NetworkBehaviour, INetworkMoveme
 
     void INetworkMovement.Handle_Action(InputAction.CallbackContext context)
     {
-        Debug.Log("Movement Input!");
         input = context.ReadValue<Vector2>();
     }
 

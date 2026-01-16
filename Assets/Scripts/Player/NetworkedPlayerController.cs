@@ -39,11 +39,15 @@ public class NetworkedPlayerController : NetworkBehaviour
         CameraManager.instance.AssignTargetToTargetGroup(this.transform);
     }
 
-    private void Start()
+    private void OnDisable()
+    {
+        CameraManager.instance.RemoveTargetFromTargetGroup(this.transform);
+    }
+
+    public override void OnNetworkSpawn()
     {
         if (!IsOwner) { return; }
 
-        Debug.Log("Input Assigned!");
         m_InputActions.Enable();
 
         m_InputActions.Player.Move.performed += m_Movement.Handle_Action;
@@ -54,7 +58,7 @@ public class NetworkedPlayerController : NetworkBehaviour
         m_InputActions.Player.Point.performed += m_Rotation.Handle_Action;
     }
 
-    public override void OnDestroy()
+    public override void OnNetworkDespawn()
     {
         if (!IsOwner) { return; }
 
@@ -66,12 +70,5 @@ public class NetworkedPlayerController : NetworkBehaviour
         m_InputActions.Player.Attack.performed -= m_Combat.Handle_Action;
 
         m_InputActions.Player.Point.performed -= m_Rotation.Handle_Action;
-
-        base.OnDestroy();
-    }
-
-    private void OnDisable()
-    {
-        CameraManager.instance.RemoveTargetFromTargetGroup(this.transform);
     }
 }
