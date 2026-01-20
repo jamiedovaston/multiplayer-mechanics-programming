@@ -7,14 +7,15 @@ public class NetworkedPlayerMovementComponent : NetworkBehaviour, INetworkMoveme
 {
     Rigidbody rb;
     Vector2 input;
+    Animator animator;
 
     [SerializeField] private float speed = 8.0f;
     [SerializeField] private float counterMovement = 0.175f;
 
-    void INetworkMovement.Initialise(Rigidbody rb)
+    void INetworkMovement.Initialise(Rigidbody rb, Animator animator)
     {
-        Debug.Log("Initialised!");
         this.rb = rb;
+        this.animator = animator;
     }
 
     void INetworkMovement.Handle_Action(InputAction.CallbackContext context)
@@ -27,6 +28,7 @@ public class NetworkedPlayerMovementComponent : NetworkBehaviour, INetworkMoveme
         if (!IsOwner) return;
 
         Movement();
+        UpdateAnimator();
     }
 
     private void Movement()
@@ -43,5 +45,10 @@ public class NetworkedPlayerMovementComponent : NetworkBehaviour, INetworkMoveme
     {
         rb.AddForce(Vector3.right * speed * Time.fixedDeltaTime * -rb.linearVelocity.x * counterMovement);
         rb.AddForce(Vector3.forward * speed * Time.fixedDeltaTime * -rb.linearVelocity.z * counterMovement);
+    }
+
+    private void UpdateAnimator()
+    {
+
     }
 }

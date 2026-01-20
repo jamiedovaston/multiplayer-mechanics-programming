@@ -8,11 +8,20 @@ public class NetworkedCoinsController : NetworkBehaviour
     [SerializeField] private float radius = 8.0f;
     [SerializeField] private int coinsAmount = 10;
 
+    Coroutine m_CoinSpawnRoutine;
+
     public override void OnNetworkSpawn()
     {
         if (!IsServer) return;
 
-        StartCoroutine(SpawnCoins());
+        m_CoinSpawnRoutine = StartCoroutine(SpawnCoins());
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (!IsServer) return;
+
+        StopCoroutine(m_CoinSpawnRoutine);
     }
 
     IEnumerator SpawnCoins()

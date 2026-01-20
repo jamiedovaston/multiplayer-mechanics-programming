@@ -8,6 +8,7 @@ using UnityEngine;
 public class NetworkedPlayerController : NetworkBehaviour
 {
     Rigidbody rb;
+    Animator animator;
     InputSystem_Actions m_InputActions;
 
     // COMPONENTS
@@ -18,12 +19,13 @@ public class NetworkedPlayerController : NetworkBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
 
         m_InputActions = new InputSystem_Actions();
 
         m_Movement = GetComponent<INetworkMovement>();
         Debug.Assert(m_Movement != null, "Network Movement component is missing!", this);
-        m_Movement.Initialise(rb);
+        m_Movement.Initialise(rb, animator);
 
         m_Combat = GetComponent<INetworkCombat>();
         Debug.Assert(m_Combat != null, "Network Combat component is missing!", this);
