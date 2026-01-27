@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class NetworkedPlayerCombatComponent : NetworkBehaviour, INetworkCombat
+public class NetworkedPlayerBombCombatComponent : NetworkBehaviour, INetworkCombat
 {
     [SerializeField] private GameObject m_BombPrefab;
     [SerializeField] private float m_BombSpeed = 2.0f;
@@ -24,6 +24,5 @@ public class NetworkedPlayerCombatComponent : NetworkBehaviour, INetworkCombat
         obj.GetComponent<NetworkObject>().Spawn();
 
         obj.GetComponent<Rigidbody>().AddForce(transform.forward * m_BombSpeed, ForceMode.Impulse);
-
     }
 }

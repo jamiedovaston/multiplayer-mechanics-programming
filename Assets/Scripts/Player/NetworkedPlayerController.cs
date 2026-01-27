@@ -13,13 +13,13 @@ public class NetworkedPlayerController : NetworkBehaviour
 
     // COMPONENTS
     INetworkMovement m_Movement;
-    INetworkCombat m_Combat;
+    INetworkCombat m_BatCombat, m_BombCombat;
     INetworkRotation m_Rotation;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
 
         m_InputActions = new InputSystem_Actions();
 
@@ -27,9 +27,12 @@ public class NetworkedPlayerController : NetworkBehaviour
         Debug.Assert(m_Movement != null, "Network Movement component is missing!", this);
         m_Movement.Initialise(rb, animator);
 
-        m_Combat = GetComponent<INetworkCombat>();
-        Debug.Assert(m_Combat != null, "Network Combat component is missing!", this);
-        m_Combat.Initialise();
+        m_BatCombat = GetComponent<NetworkedPlayerBatCombatComponent>();
+        m_BombCombat = GetComponent<NetworkedPlayerBombCombatComponent>();
+        Debug.Assert(m_BatCombat != null, "Network Bat Combat component is missing!", this);
+        Debug.Assert(m_BombCombat != null , "Network Bomb Combat component is missing!", this);
+        m_BatCombat.Initialise();
+        m_BombCombat.Initialise();
 
         m_Rotation = GetComponent<INetworkRotation>();
         Debug.Assert(m_Rotation != null, "Network Combat component is missing!", this);
@@ -55,7 +58,8 @@ public class NetworkedPlayerController : NetworkBehaviour
         m_InputActions.Player.Move.performed += m_Movement.Handle_Action;
         m_InputActions.Player.Move.canceled += m_Movement.Handle_Action;
 
-        m_InputActions.Player.Attack.performed += m_Combat.Handle_Action;
+        m_InputActions.Player.Bat.performed += m_BatCombat.Handle_Action;
+        m_InputActions.Player.Bomb.performed += m_BombCombat.Handle_Action;
 
         m_InputActions.Player.Point.performed += m_Rotation.Handle_Action;
     }
@@ -69,7 +73,8 @@ public class NetworkedPlayerController : NetworkBehaviour
         m_InputActions.Player.Move.performed -= m_Movement.Handle_Action;
         m_InputActions.Player.Move.canceled -= m_Movement.Handle_Action;
 
-        m_InputActions.Player.Attack.performed -= m_Combat.Handle_Action;
+        m_InputActions.Player.Bat.performed -= m_BatCombat.Handle_Action;
+        m_InputActions.Player.Bomb.performed -= m_BombCombat.Handle_Action;
 
         m_InputActions.Player.Point.performed -= m_Rotation.Handle_Action;
     }

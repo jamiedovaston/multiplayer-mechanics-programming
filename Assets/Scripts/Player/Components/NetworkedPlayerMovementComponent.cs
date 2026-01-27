@@ -39,6 +39,7 @@ public class NetworkedPlayerMovementComponent : NetworkBehaviour, INetworkMoveme
 
         rb.AddForce(Vector3.right * input.x * speed * Time.fixedDeltaTime);
         rb.AddForce(Vector3.forward * input.y * speed * Time.fixedDeltaTime);
+
     }
 
     private void CounterMovement()
@@ -49,6 +50,18 @@ public class NetworkedPlayerMovementComponent : NetworkBehaviour, INetworkMoveme
 
     private void UpdateAnimator()
     {
+        Vector3 worldMoveDir = new Vector3(input.x, 0f, input.y);
 
+        if (worldMoveDir.sqrMagnitude < 0.001f)
+        {
+            animator.SetFloat("MoveX", 0f);
+            animator.SetFloat("MoveY", 0f);
+            return;
+        }
+
+        Vector3 localMoveDir = transform.InverseTransformDirection(worldMoveDir.normalized);
+
+        animator.SetFloat("MoveX", localMoveDir.x);
+        animator.SetFloat("MoveY", localMoveDir.z);
     }
 }
