@@ -5,7 +5,6 @@ using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
-using UnityEngine;
 
 public static class NetworkServices
 {
@@ -29,7 +28,6 @@ public static class NetworkServices
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
-
         var allocation = await RelayService.Instance.JoinAllocationAsync(joinCode: joinCode);
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, connectionType));
         return !string.IsNullOrEmpty(joinCode) && NetworkManager.Singleton.StartClient();

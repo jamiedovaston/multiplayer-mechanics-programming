@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerSessionManager : NetworkBehaviour
 {
@@ -11,6 +12,7 @@ public class PlayerSessionManager : NetworkBehaviour
         if (!IsServer) return;
 
         NetworkManager.OnClientConnectedCallback += OnClientConnectCallback;
+        NetworkManager.OnServerStarted += OnServerStarted;
     }
 
     public override void OnNetworkDespawn()
@@ -18,14 +20,19 @@ public class PlayerSessionManager : NetworkBehaviour
         if (!IsServer) return;
 
         NetworkManager.OnClientConnectedCallback -= OnClientConnectCallback;
+        NetworkManager.OnServerStarted -= OnServerStarted;
+    }
 
+    private void OnServerStarted()
+    {
+        NetworkManager.SceneManager.LoadScene("Lobby", LoadSceneMode.Additive);
     }
 
     public void OnClientConnectCallback(ulong clientID)
     {
         if (!IsServer) return;
 
-        Spawn(clientID);
+        // Spawn(clientID);
     }
 
     public void Spawn(ulong id)
