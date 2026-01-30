@@ -9,8 +9,9 @@ public interface INetworkMovement
 
 public interface INetworkCombat
 {
-    public void Initialise();
+    public void Initialise(Animator animator);
     public void Handle_Action(InputAction.CallbackContext context);
+    public void Enable(bool enable);
 }
 
 public interface INetworkRotation

@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class NetworkedPlayerRotationComponent : NetworkBehaviour, INetworkRotation
 {
     [SerializeField] private LayerMask groundMask;
+    [SerializeField] private GameObject rotationObject;
 
     void INetworkRotation.Initialise()
     {
@@ -25,4 +26,7 @@ public class NetworkedPlayerRotationComponent : NetworkBehaviour, INetworkRotati
             transform.LookAt(lookPos);
         }
     }
+
+    public override void OnNetworkSpawn() =>
+        rotationObject.SetActive(IsLocalPlayer);
 }

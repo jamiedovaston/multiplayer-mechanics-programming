@@ -16,6 +16,23 @@ public class NetworkedPlayerController : NetworkBehaviour
     INetworkCombat m_BatCombat, m_BombCombat;
     INetworkRotation m_Rotation;
 
+    [Rpc(SendTo.Everyone)]
+    public void InitialiseRpc(bool IsBat)
+    {
+        if (IsBat)
+        {
+            m_BatCombat.Enable(true);
+            m_BatCombat.Initialise(animator);
+            m_InputActions.Player.Bat.performed += m_BatCombat.Handle_Action;
+        }
+        else
+        {
+            m_BombCombat.Enable(true);
+            m_BombCombat.Initialise(animator);
+            m_InputActions.Player.Bomb.performed += m_BombCombat.Handle_Action;
+        }
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -31,8 +48,8 @@ public class NetworkedPlayerController : NetworkBehaviour
         m_BombCombat = GetComponent<NetworkedPlayerBombCombatComponent>();
         Debug.Assert(m_BatCombat != null, "Network Bat Combat component is missing!", this);
         Debug.Assert(m_BombCombat != null , "Network Bomb Combat component is missing!", this);
-        m_BatCombat.Initialise();
-        m_BombCombat.Initialise();
+        m_BatCombat.Enable(false);
+        m_BombCombat.Enable(false);
 
         m_Rotation = GetComponent<INetworkRotation>();
         Debug.Assert(m_Rotation != null, "Network Combat component is missing!", this);
@@ -57,9 +74,6 @@ public class NetworkedPlayerController : NetworkBehaviour
 
         m_InputActions.Player.Move.performed += m_Movement.Handle_Action;
         m_InputActions.Player.Move.canceled += m_Movement.Handle_Action;
-
-        m_InputActions.Player.Bat.performed += m_BatCombat.Handle_Action;
-        m_InputActions.Player.Bomb.performed += m_BombCombat.Handle_Action;
 
         m_InputActions.Player.Point.performed += m_Rotation.Handle_Action;
     }

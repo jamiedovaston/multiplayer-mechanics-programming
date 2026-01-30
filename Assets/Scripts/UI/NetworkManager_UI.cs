@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,11 +14,15 @@ public class NetworkManager_UI : NetworkBehaviour
     public Canvas m_ConnectedPanel;
     public Button m_DisconnectButton;
 
+    public string tempCode;
+
     private void Start()
     {
-        m_HostButton.onClick.AddListener(() =>
+        m_HostButton.onClick.AddListener(async () =>
         {
-            NetworkManager.Singleton.StartHost();
+            string code = await NetworkServices.StartHostWithRelay(2, "udp");
+
+            Debug.Log($"Code: { code }");
         });
 
         m_ServerButton.onClick.AddListener(() =>
@@ -24,9 +30,9 @@ public class NetworkManager_UI : NetworkBehaviour
             NetworkManager.Singleton.StartServer();
         });
 
-        m_ClientButton.onClick.AddListener(() =>
+        m_ClientButton.onClick.AddListener(async () =>
         {
-            NetworkManager.Singleton.StartClient();
+            await NetworkServices.StartClientWithRelay(tempCode, "udp");
         });
 
         m_DisconnectButton.onClick.AddListener(() =>

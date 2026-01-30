@@ -4,12 +4,21 @@ using UnityEngine.InputSystem;
 
 public class NetworkedPlayerBombCombatComponent : NetworkBehaviour, INetworkCombat
 {
+    private Animator m_Animator;
     [SerializeField] private GameObject m_BombPrefab;
     [SerializeField] private float m_BombSpeed = 2.0f;
+    [SerializeField] private GameObject m_BombModel;
 
-    void INetworkCombat.Initialise()
+    private void Awake()
     {
-        
+        m_BombModel.SetActive(false);
+    }
+
+    void INetworkCombat.Initialise(Animator animator)
+    {
+        m_Animator = animator;
+        m_Animator.SetInteger("Weapon", 1);
+        m_BombModel.SetActive(true);
     }
 
     void INetworkCombat.Handle_Action(InputAction.CallbackContext context)
@@ -24,5 +33,9 @@ public class NetworkedPlayerBombCombatComponent : NetworkBehaviour, INetworkComb
         obj.GetComponent<NetworkObject>().Spawn();
 
         obj.GetComponent<Rigidbody>().AddForce(transform.forward * m_BombSpeed, ForceMode.Impulse);
+
+        m_Animator.SetTrigger("Use");
     }
+
+    public void Enable(bool enable) => this.enabled = enable;
 }
