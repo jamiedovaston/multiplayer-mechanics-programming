@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,8 +15,11 @@ public class PlayerSessionManager : NetworkBehaviour
         NetworkManager.OnClientConnectedCallback += OnClientConnectCallback;
         NetworkManager.OnServerStarted += OnServerStarted;
 
+        NetworkManager.SceneManager.OnSceneEvent += OnSceneEvent;
+
         PlayerLobby.OnStartGame += StartGame;
     }
+
 
     public override void OnNetworkDespawn()
     {
@@ -25,6 +29,8 @@ public class PlayerSessionManager : NetworkBehaviour
 
         NetworkManager.OnClientConnectedCallback -= OnClientConnectCallback;
         NetworkManager.OnServerStarted -= OnServerStarted;
+
+        NetworkManager.SceneManager.OnSceneEvent -= OnSceneEvent;
 
         PlayerLobby.OnStartGame -= StartGame;
     }
@@ -38,17 +44,30 @@ public class PlayerSessionManager : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        // Spawn(clientID);
+        Spawn(clientID);
+    }
+
+    private void OnSceneEvent(SceneEvent sceneEvent)
+    {
+        foreach (ulong clientID in NetworkManager.ConnectedClientsIds)
+        {
+            SpawnRpc(clientID);
+        }
+
+        if (sceneEvent.SceneName == "Game")
+        {
+            NetworkManager.SceneManager.UnloadScene(SceneManager.GetSceneByName("Lobby"));
+        }
     }
 
     private void StartGame()
     {
         /// FIIXXXXXXXXXXXXXXXXXXXX
-        NetworkManager.SceneManager.UnloadScene(SceneManager.GetSceneByName("Lobby"));
         NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Additive);
     }
 
-    public void Spawn(ulong id)
+    [Rpc(SendTo.Server)]
+    public void SpawnRpc(ulong id)
     {
         Vector3 randomPos = (Vector3.right * Random.Range(-3.0f, 3.0f)) + (Vector3.forward * Random.Range(-3.0f, 3.0f));
         GameObject p = Instantiate(m_Player, m_SpawnPosition.position + randomPos, Quaternion.identity);
