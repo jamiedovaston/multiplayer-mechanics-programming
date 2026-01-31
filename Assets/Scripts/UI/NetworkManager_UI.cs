@@ -18,9 +18,6 @@ public class NetworkManager_UI : NetworkBehaviour
     public Button m_HostButton, m_ClientButton;
     public TMP_InputField m_CodeInputField;
 
-    // CODE
-    public TMP_Text m_CodeDisplay;
-
     // GAME
     [Header("Game")]
     public Canvas m_GamePanel;
@@ -42,7 +39,7 @@ public class NetworkManager_UI : NetworkBehaviour
         {
             m_HomePanel.enabled = false;
             m_ConnectingPanel.enabled = true;
-            bool success = await NetworkServices.StartClientWithRelay(m_CodeInputField.text, "udp");
+            bool success = await RelayManager.Instance.StartClient(m_CodeInputField.text);
             m_ConnectingPanel.enabled = false;
 
             SuccessfullyConnectedToLobby(success);
@@ -57,11 +54,6 @@ public class NetworkManager_UI : NetworkBehaviour
     private void SuccessfullyConnectedToLobby(bool success)
     {
         m_HomePanel.enabled = !success;
-
-        if (success)
-        {
-            m_CodeDisplay.text = "Code : " + RelayManager.Instance.joinCode;
-        }
     }
 
     public override void OnNetworkSpawn()

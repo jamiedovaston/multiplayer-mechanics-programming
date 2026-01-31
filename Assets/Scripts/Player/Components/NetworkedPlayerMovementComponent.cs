@@ -13,7 +13,6 @@ public class NetworkedPlayerMovementComponent : NetworkBehaviour, INetworkMoveme
     [SerializeField] private float counterMovement = 0.175f;
 
     [Header("Ground Check")]
-    [SerializeField] private float groundCheckDistance = 0.2f;
     [SerializeField] private float groundCheckRadius = 0.3f;
     [SerializeField] private LayerMask groundLayer;
 

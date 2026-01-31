@@ -13,14 +13,20 @@ public class PlayerSessionManager : NetworkBehaviour
 
         NetworkManager.OnClientConnectedCallback += OnClientConnectCallback;
         NetworkManager.OnServerStarted += OnServerStarted;
+
+        PlayerLobby.OnStartGame += StartGame;
     }
 
     public override void OnNetworkDespawn()
     {
+        SceneManager.UnloadSceneAsync("Lobby");
+
         if (!IsServer) return;
 
         NetworkManager.OnClientConnectedCallback -= OnClientConnectCallback;
         NetworkManager.OnServerStarted -= OnServerStarted;
+
+        PlayerLobby.OnStartGame -= StartGame;
     }
 
     private void OnServerStarted()
@@ -33,6 +39,13 @@ public class PlayerSessionManager : NetworkBehaviour
         if (!IsServer) return;
 
         // Spawn(clientID);
+    }
+
+    private void StartGame()
+    {
+        /// FIIXXXXXXXXXXXXXXXXXXXX
+        NetworkManager.SceneManager.UnloadScene(SceneManager.GetSceneByName("Lobby"));
+        NetworkManager.SceneManager.LoadScene("Game", LoadSceneMode.Additive);
     }
 
     public void Spawn(ulong id)

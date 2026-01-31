@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 public class RelayManager : Singleton<RelayManager>
 {
-    public string joinCode { get; private set; } = string.Empty;
+    public string joinCode = string.Empty;
     public string helloString = "Hello String";
 
     public async Task<bool> StartHost()
