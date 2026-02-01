@@ -11,25 +11,29 @@ public class NetworkedPlayerController : NetworkBehaviour
     Animator animator;
     InputSystem_Actions m_InputActions;
 
+    [SerializeField] private SkinnedMeshRenderer m_CharacterMesh;
+
     // COMPONENTS
     INetworkMovement m_Movement;
     INetworkCombat m_BatCombat, m_BombCombat;
     INetworkRotation m_Rotation;
 
     [Rpc(SendTo.Everyone)]
-    public void InitialiseRpc(bool IsBat)
+    public void InitialiseRpc(PlayerType type)
     {
-        if (IsBat)
+        if (type == PlayerType.Bat)
         {
             m_BatCombat.Enable(true);
             m_BatCombat.Initialise(animator);
-            m_InputActions.Player.Bat.performed += m_BatCombat.Handle_Action;
+            m_InputActions.Player.Action.performed += m_BatCombat.Handle_Action;
+            m_CharacterMesh.material.color = Color.blue;
         }
-        else
+        if(type == PlayerType.Bomb)
         {
             m_BombCombat.Enable(true);
             m_BombCombat.Initialise(animator);
-            m_InputActions.Player.Bomb.performed += m_BombCombat.Handle_Action;
+            m_InputActions.Player.Action.performed += m_BombCombat.Handle_Action;
+            m_CharacterMesh.material.color = Color.red;
         }
     }
 
@@ -87,9 +91,12 @@ public class NetworkedPlayerController : NetworkBehaviour
         m_InputActions.Player.Move.performed -= m_Movement.Handle_Action;
         m_InputActions.Player.Move.canceled -= m_Movement.Handle_Action;
 
-        m_InputActions.Player.Bat.performed -= m_BatCombat.Handle_Action;
-        m_InputActions.Player.Bomb.performed -= m_BombCombat.Handle_Action;
+        m_InputActions.Player.Action.performed -= m_BatCombat.Handle_Action;
+        m_InputActions.Player.Action.performed -= m_BombCombat.Handle_Action;
 
         m_InputActions.Player.Point.performed -= m_Rotation.Handle_Action;
     }
+
+    public void TeleportRpc(Vector3 m_TeleportPosition) =>
+        transform.position = m_TeleportPosition;
 }

@@ -24,6 +24,7 @@ public class NetworkedPlayerBombCombatComponent : NetworkBehaviour, INetworkComb
     void INetworkCombat.Handle_Action(InputAction.CallbackContext context)
     {
         DropBombRpc();
+        m_Animator.SetTrigger("Use");
     }
 
     [Rpc(SendTo.Server)]
@@ -33,8 +34,6 @@ public class NetworkedPlayerBombCombatComponent : NetworkBehaviour, INetworkComb
         obj.GetComponent<NetworkObject>().Spawn();
 
         obj.GetComponent<Rigidbody>().AddForce(transform.forward * m_BombSpeed, ForceMode.Impulse);
-
-        m_Animator.SetTrigger("Use");
     }
 
     public void Enable(bool enable) => this.enabled = enable;

@@ -283,12 +283,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   m_BombExplodeTime: 1
+  m_Damage: 15
   m_BombExplodeRadius: 3
   m_BombExplodeForce: 15
   m_BombExplodeUpwardsForce: 10
   m_ExplosionLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
   m_ExplosionVFX: {fileID: 2433282508537954060, guid: 3ef3ae421f71c5c4e97fe12dc2fc6312, type: 3}
 --- !u!135 &6030246376261255569
 SphereCollider:

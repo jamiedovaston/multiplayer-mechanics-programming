@@ -1,31 +1,28 @@
-using Mono.Cecil.Cil;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+
+public enum PlayerType
+{
+    Bat = 0,
+    Bomb = 1
+}
 
 public class PlayerLobby : NetworkBehaviour
 {
-    public static Action OnStartGame;
+    public static Action<ulong, PlayerType, ulong, PlayerType> OnStartGame;
 
     public TMP_Text m_LobbyCodeText;
-
-    public enum PlayerType
-    {
-        Bat = 0,
-        Bomb = 1
-    }
 
     // Player 1
     public GameObject m_Player1, m_Player1BatModel, m_Player1BombModel;
     public GameObject m_Player2, m_Player2BatModel, m_Player2BombModel;
+    public SkinnedMeshRenderer m_Player1CharacterMesh, m_Player2CharacterMesh;
     public Animator m_Player1Anim, m_Player2Anim;
     public TMP_Text m_Player1Text, m_Player2Text;
+    private ulong m_Player1ID, m_Player2ID;
     private PlayerType m_Player1Type, m_Player2Type;
 
     public GameObject m_SwapButton;
@@ -47,6 +44,8 @@ public class PlayerLobby : NetworkBehaviour
 
         m_SwapButton.SetActive(IsHost);
 
+        m_Player1ID = NetworkManager.LocalClientId;
+
         CheckPlayers();
 
         if (IsServer)
@@ -62,6 +61,7 @@ public class PlayerLobby : NetworkBehaviour
     public void OnClientConnectCallback(ulong clientID)
     {
         CheckPlayers();
+        m_Player2ID = clientID;
 
         if (IsServer) {
             ApplyPlayerSettingsRpc(m_Player1Type, m_Player2Type);
@@ -91,7 +91,7 @@ public class PlayerLobby : NetworkBehaviour
         m_UnreadyButton.SetActive(false);
         m_StartGameButton.SetActive(false);
 
-        OnStartGame?.Invoke();
+        OnStartGame?.Invoke(m_Player1ID, m_Player1Type, m_Player2ID, m_Player2Type);
     }
 
     [Rpc(SendTo.Server)]
@@ -118,6 +118,10 @@ public class PlayerLobby : NetworkBehaviour
 
     private void OnClientDisconnectCallback(ulong clientID)
     {
+        if(clientID == NetworkManager.LocalClientId) UnreadyUpRpc(NetworkManager.LocalClientId);
+
+        if (m_Player2ID == clientID) m_Player2ID = ulong.MinValue;
+        m_Player2ID = clientID;
         m_ReadyClients.Remove(clientID);
         CheckPlayers();
     }
@@ -163,6 +167,9 @@ public class PlayerLobby : NetworkBehaviour
 
         m_Player1Anim.SetInteger("Weapon", (int)m_Player1Type);
         m_Player2Anim.SetInteger("Weapon", (int)m_Player2Type);
+
+        m_Player1CharacterMesh.material.color = m_Player1Type == PlayerType.Bat ? Color.blue : Color.red;
+        m_Player2CharacterMesh.material.color = m_Player2Type == PlayerType.Bat ? Color.blue : Color.red;
 
         m_Player1Anim.SetTrigger("ChangeWeapon");
         m_Player2Anim.SetTrigger("ChangeWeapon");

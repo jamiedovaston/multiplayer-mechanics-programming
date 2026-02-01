@@ -24,18 +24,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Bomb",
+                    "name": "Action",
                     "type": "Button",
                     "id": "6c2ab1b8-8984-453a-af3d-a3c78ae1679a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Bat",
-                    "type": "Button",
-                    "id": "d9df693d-093c-474e-9929-5dcbf5da8755",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -278,18 +269,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Bomb",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "91afbfdc-5bfa-472e-b362-8dc4a58a9b85",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Bat",
+                    "action": "Action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

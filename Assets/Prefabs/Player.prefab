@@ -1436,7 +1436,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7557540490364101082, guid: e61e990d0265aa740bcd23736efcc3a6, type: 3}
+  - {fileID: 2100000, guid: 636c82e3aa1fe1e42b063883c58b211b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1779,7 +1779,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8474651742996372913, guid: e61e990d0265aa740bcd23736efcc3a6, type: 3}
+  - {fileID: 2100000, guid: 6f2047dcd62374a488f9ec7cd1b68bf0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2435,11 +2435,11 @@ GameObject:
   - component: {fileID: 6130692662119655641}
   - component: {fileID: 601337259753859617}
   - component: {fileID: 719671383453303934}
-  - component: {fileID: 5951004828644620417}
   - component: {fileID: 4110288812693197122}
   - component: {fileID: 3283463638951606455}
   - component: {fileID: 3180937112425737787}
   - component: {fileID: 5108641436093379435}
+  - component: {fileID: 5951004828644620417}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -2502,6 +2502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  m_CharacterMesh: {fileID: 1359480346651072168}
 --- !u!114 &952581792118349388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2517,7 +2518,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   speed: 8000
   counterMovement: 0.125
-  groundCheckDistance: 0.5
   groundCheckRadius: 0.5
   groundLayer:
     serializedVersion: 2
@@ -2536,9 +2536,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   m_HitSpeed: 2.5
-  m_BombLayer:
+  m_Damage: 10
+  m_HitLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 640
   m_HitEffect: {fileID: 141433446842962269, guid: 9fe8f8b3288e45a44af36ff8aa04486e, type: 3}
   m_BatModel: {fileID: 3081876677354501339}
 --- !u!114 &601337259753859617
@@ -2555,7 +2556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   m_BombPrefab: {fileID: 7832118379114125520, guid: ac4b1c948bac294458d026be4bf81ad4, type: 3}
-  m_BombSpeed: 0.75
+  m_BombSpeed: 0.2
   m_BombModel: {fileID: 7946870939067452657}
 --- !u!114 &719671383453303934
 MonoBehaviour:
@@ -2574,33 +2575,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   rotationObject: {fileID: 1763510897575684431}
---- !u!54 &5951004828644620417
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5224358072045627093}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!114 &4110288812693197122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2661,7 +2635,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkAnimatorExpanded: 0
-  AuthorityMode: 0
+  AuthorityMode: 1
   m_Animator: {fileID: 6252452069991331957}
   TransitionStateInfoList: []
   AnimatorParameterEntries:
@@ -2727,6 +2701,33 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &5951004828644620417
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5224358072045627093}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &5227672781158841689
 GameObject:
   m_ObjectHideFlags: 0

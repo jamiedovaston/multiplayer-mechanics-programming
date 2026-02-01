@@ -474,6 +474,8 @@ MonoBehaviour:
   m_Player2: {fileID: 211612879}
   m_Player2BatModel: {fileID: 1989414177}
   m_Player2BombModel: {fileID: 735556506}
+  m_Player1CharacterMesh: {fileID: 1810342103}
+  m_Player2CharacterMesh: {fileID: 1608985324}
   m_Player1Anim: {fileID: 1810342101}
   m_Player2Anim: {fileID: 1608985322}
   m_Player1Text: {fileID: 957862883}
@@ -3269,6 +3271,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: e61e990d0265aa740bcd23736efcc3a6, type: 3}
   m_PrefabInstance: {fileID: 1608985319}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &1608985324 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6148737315974723067, guid: e61e990d0265aa740bcd23736efcc3a6, type: 3}
+  m_PrefabInstance: {fileID: 1608985319}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1626590077
 GameObject:
   m_ObjectHideFlags: 0
@@ -3521,6 +3528,11 @@ Animator:
 --- !u!4 &1810342102 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: e61e990d0265aa740bcd23736efcc3a6, type: 3}
+  m_PrefabInstance: {fileID: 1810342098}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &1810342103 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6148737315974723067, guid: e61e990d0265aa740bcd23736efcc3a6, type: 3}
   m_PrefabInstance: {fileID: 1810342098}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1873736471
